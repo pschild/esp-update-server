@@ -59,5 +59,5 @@ app.get('/ota', (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
+    console.log(`running at http://localhost:${port}`);
 });
