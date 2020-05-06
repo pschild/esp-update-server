@@ -9,8 +9,9 @@ const mockBinaryNames = [
   'firmware-v20-9876boz.bin'
 ];
 
-test('should throw an error if chipId not found', async () => {
-  await expect(findBinaryForUpdate('invalid')).rejects.toThrow();
+test('should return undefined if chipId not found', async () => {
+  const files = await findBinaryForUpdate('invalid');
+  expect(files).toBe(undefined);
 });
 
 test('should return the binary path', async () => {
