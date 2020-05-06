@@ -8,9 +8,12 @@ export const findBinaryForUpdate = async (chipId: string, currentVersion?: strin
     const fileNameOfLatestVersion = getFileNameOfLatestVersion(allBinaries, currentVersion);
     if (fileNameOfLatestVersion) {
       return path.resolve(chipFolderPath, fileNameOfLatestVersion);
+    } else {
+      console.log(`\tNo firmware file found or chip is already using the latest version.`);
+      return;
     }
   } catch (err) {
-    throw new Error(`Error reading directory ${chipFolderPath}: ${err}`);
+    console.log(`\tError reading directory ${chipFolderPath}: ${err}`);
   }
 };
 

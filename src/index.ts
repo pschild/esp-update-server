@@ -49,18 +49,19 @@ app.get('/ota', async (req: Request, res: Response) => {
   const chipId = headers['x-esp8266-chip-id'] as string;
   const currentVersion = headers['x-esp8266-version'] as string;
   console.log(`${new Date().toISOString()}: ESP Chip ${chipId} is using version ${currentVersion}.`);
+  console.log(`\tChecking for new version...`);
 
   const binaryFile: string = await findBinaryForUpdate(chipId, currentVersion);
   if (binaryFile) {
+    console.log(`\tSending new binary ${binaryFile}...`);
     res.sendFile(binaryFile, err => {
       if (err) {
-        console.log(`There was an error sending the binary in path ${binaryFile}:`);
+        console.log(`\t\tThere was an error sending the binary in path ${binaryFile}:`);
         console.log(err);
         res.status(304).end();
       }
     });
   } else {
-    console.log(`No firmware file found or chip is already using the latest version.`);
     res.status(304).end();
   }
 });
