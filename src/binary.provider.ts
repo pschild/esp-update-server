@@ -40,6 +40,7 @@ export const getFileNameOfLatestVersion = (files: string[], currentVersion?: str
     throw new Error(`Cannot parse version from name "${fileNameWithLatestVersion}"`);
   }
   const latestVersion: string = latestVersionMatches[1];
+  console.log(`\tlatest version found: ${latestVersion}`);
 
   if (!currentVersion || currentVersion !== latestVersion) {
     return fileNameWithLatestVersion;
