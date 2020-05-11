@@ -9,12 +9,12 @@ const port = 9042;
 app.use(express.static(path.join(__dirname, 'binfiles')));
 
 app.get('/', (req, res) => {
-  // console.log(JSON.stringify(req.headers));
+  //console.log(JSON.stringify(req.headers));
   res.status(200).json({ status: 'ready' });
 });
 
 app.get('/ota', async (req: Request, res: Response) => {
-  // console.log(JSON.stringify(req.headers));
+  //console.log(JSON.stringify(req.headers));
 
   /*
   req.headers = {
