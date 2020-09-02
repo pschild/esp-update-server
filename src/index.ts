@@ -40,7 +40,7 @@ app.get('/ota', async (req: Request, res: Response) => {
     || !headers['x-esp8266-sketch-md5']
     || !headers['x-esp8266-chip-size']
     || !headers['x-esp8266-sdk-version']
-    || !headers['x-esp8266-version']
+    // || !headers['x-esp8266-version']
   ) {
     console.log(`URL accessed by an unknown source: ${JSON.stringify(headers)}`);
     return res.status(500).send(`Request not coming from an ESP. Aborting!`);
