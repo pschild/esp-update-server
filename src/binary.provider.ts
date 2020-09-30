@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
+import { log } from '.';
 
 export const findBinaryForUpdate = async (chipId: string, currentVersion?: string): Promise<string | undefined> => {
   const chipFolderPath = path.resolve(__dirname, '..', 'binfiles', chipId);
@@ -9,11 +10,11 @@ export const findBinaryForUpdate = async (chipId: string, currentVersion?: strin
     if (fileNameOfLatestVersion) {
       return path.resolve(chipFolderPath, fileNameOfLatestVersion);
     } else {
-      console.log(`\tNo firmware file found or chip is already using the latest version.`);
+      log(`\tNo firmware file found or chip is already using the latest version.`);
       return;
     }
   } catch (err) {
-    console.log(`\tError reading directory ${chipFolderPath}: ${err}`);
+    log(`\tError reading directory ${chipFolderPath}: ${err}`);
   }
 };
 
@@ -40,7 +41,7 @@ export const getFileNameOfLatestVersion = (files: string[], currentVersion?: str
     throw new Error(`Cannot parse version from name "${fileNameWithLatestVersion}"`);
   }
   const latestVersion: string = latestVersionMatches[1];
-  console.log(`\tlatest version found: ${latestVersion}`);
+  log(`\tlatest version found: ${latestVersion}`);
 
   if (!currentVersion || currentVersion !== latestVersion) {
     return fileNameWithLatestVersion;

@@ -2,19 +2,24 @@ import * as express from 'express';
 import { Application, Request, Response } from 'express';
 import * as path from 'path';
 import { findBinaryForUpdate } from './binary.provider';
+import { format } from 'date-fns';
 
 const app: Application = express();
 const port = 9042;
 
+export function log(logMessage: string) {
+  console.log(`${format(new Date(), 'dd.MM.yyyy HH:mm:ss.SSS')}: ${logMessage}`);
+}
+
 app.use(express.static(path.join(__dirname, 'binfiles')));
 
 app.get('/', (req, res) => {
-  // console.log(JSON.stringify(req.headers));
+  // log(JSON.stringify(req.headers));
   res.status(200).json({ status: 'ready' });
 });
 
 app.get('/ota', async (req: Request, res: Response) => {
-  // console.log(JSON.stringify(req.headers));
+  // log(JSON.stringify(req.headers));
 
   /*
   req.headers = {
@@ -42,22 +47,22 @@ app.get('/ota', async (req: Request, res: Response) => {
     || !headers['x-esp8266-sdk-version']
     // || !headers['x-esp8266-version']
   ) {
-    console.log(`URL accessed by an unknown source: ${JSON.stringify(headers)}`);
+    log(`URL accessed by an unknown source: ${JSON.stringify(headers)}`);
     return res.status(500).send(`Request not coming from an ESP. Aborting!`);
   }
 
   const chipId = headers['x-esp8266-chip-id'] as string;
   const currentVersion = headers['x-esp8266-version'] as string;
-  console.log(`${new Date().toISOString()}: ESP Chip ${chipId} is using version ${currentVersion}.`);
-  console.log(`\tChecking for new version...`);
+  log(`ESP Chip ${chipId} is using version ${currentVersion}.`);
+  log(`\tChecking for new version...`);
 
   const binaryFile: string = await findBinaryForUpdate(chipId, currentVersion);
   if (binaryFile) {
-    console.log(`\tSending new binary ${binaryFile}...`);
+    log(`\tSending new binary ${binaryFile}...`);
     res.sendFile(binaryFile, err => {
       if (err) {
-        console.log(`\t\tThere was an error sending the binary in path ${binaryFile}:`);
-        console.log(err);
+        log(`\t\tThere was an error sending the binary in path ${binaryFile}:`);
+        log(err.toString());
         res.status(304).end();
       }
     });
@@ -67,5 +72,5 @@ app.get('/ota', async (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-    console.log(`running at http://localhost:${port}`);
+    log(`running at http://localhost:${port}`);
 });
