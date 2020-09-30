@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
-import { log } from '.';
+import { log } from './utils';
 
 export const findBinaryForUpdate = async (chipId: string, currentVersion?: string): Promise<string | undefined> => {
   const chipFolderPath = path.resolve(__dirname, '..', 'binfiles', chipId);

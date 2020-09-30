@@ -2,14 +2,10 @@ import * as express from 'express';
 import { Application, Request, Response } from 'express';
 import * as path from 'path';
 import { findBinaryForUpdate } from './binary.provider';
-import { format } from 'date-fns';
+import { log } from './utils';
 
 const app: Application = express();
 const port = 9042;
-
-export function log(logMessage: string) {
-  console.log(`${format(new Date(), 'dd.MM.yyyy HH:mm:ss.SSS')}: ${logMessage}`);
-}
 
 app.use(express.static(path.join(__dirname, 'binfiles')));
 
